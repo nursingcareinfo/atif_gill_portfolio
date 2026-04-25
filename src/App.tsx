@@ -1,6 +1,28 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense, Component } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
+
+// --- Error Boundary for 3D ---
+class CanvasErrorBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-3xl border border-white/5">
+          <p className="text-white/30 text-xs font-mono uppercase tracking-widest">3D Presence Offline</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 import { 
   Float, 
   MeshDistortMaterial, 
@@ -43,65 +65,65 @@ interface Asset {
  * Then update the URLs below to: '/images/filename.jpg' or '/videos/filename.mp4'
  */
 const DIGITAL_ARCHIVE = [
-  '/images/WhatsApp Image 2026-04-25 at 10.42.51 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.42.51 AM (2).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.42.52 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.42.52 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10,43,11 AM-1.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.11 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.11 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.12 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.12 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.13 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.13 AM (2).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.13 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM (2).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM (3).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.15 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.15 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.16 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.16 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.18 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.18 AM (2).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.18 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.19 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.19 AM (2).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.19 AM.jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.20 AM (1).jpeg',
-  '/images/WhatsApp Image 2026-04-25 at 10.43.20 AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(2).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.52%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.52%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010,43,11%20AM-1.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.12%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.12%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM%20(2).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(2).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(3).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.15%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.15%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM%20(2).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM%20(2).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM.jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(1).jpeg',
+  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM.jpeg',
 ];
 
 const VIDEO_ASSETS = [
-  { url: '/videos/WhatsApp Video 2026-04-25 at 10.42.55 AM.mp4', label: 'Presence Reel 01' },
-  { url: '/videos/WhatsApp Video 2026-04-25 at 10.43.10 AM.mp4', label: 'Commercial Clip' },
-  { url: '/videos/WhatsApp Video 2026-04-25 at 10.43.17 AM.mp4', label: 'Behind the Scenes' }
+  { url: '/videos/WhatsApp%20Video%202026-04-25%20at%2010.42.55%20AM.mp4', label: 'Presence Reel 01' },
+  { url: '/videos/WhatsApp%20Video%202026-04-25%20at%2010.43.10%20AM.mp4', label: 'Commercial Clip' },
+  { url: '/videos/WhatsApp%20Video%202026-04-25%20at%2010.43.17%20AM.mp4', label: 'Behind the Scenes' }
 ];
 
 const ASSETS: Asset[] = [
   { 
-    url: '/images/WhatsApp Image 2026-04-25 at 10.42.51 AM (1).jpeg', 
+    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(1).jpeg', 
     type: 'image', 
     label: 'Full Body Presence' 
   },
   { 
-    url: '/images/WhatsApp Image 2026-04-25 at 10.43.11 AM.jpeg', 
+    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM.jpeg', 
     type: 'image', 
     label: 'Cinematic Portrait' 
   },
   { 
-    url: '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM.jpeg', 
+    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM.jpeg', 
     type: 'image', 
     label: 'Dramatic Range' 
   },
   { 
-    url: '/images/WhatsApp Image 2026-04-25 at 10.43.16 AM.jpeg', 
+    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM.jpeg', 
     type: 'image', 
     label: 'Street Style' 
   },
   { 
-    url: '/images/WhatsApp Image 2026-04-25 at 10.43.19 AM.jpeg', 
+    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM.jpeg', 
     type: 'image', 
     label: 'High Fashion' 
   },
@@ -182,34 +204,37 @@ const GlassCard = ({ children, className = "", delay = 0 }: { children: React.Re
 const ZAxisGallery = () => {
   return (
     <div className="h-[600px] w-full rounded-3xl overflow-hidden relative border border-white/5 bg-black">
-      <Canvas>
-        <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-        {/* @ts-ignore */}
-        <ambientLight intensity={0.5} />
-        <ScrollControls pages={ASSETS.length} damping={0.1}>
-          <Scroll>
-            {ASSETS.map((asset, i) => (
-              <DreiImage
-                key={i}
-                url={asset.url}
-                position={[i % 2 === 0 ? -1.5 : 1.5, -i * 3.5, -i * 2]}
-                scale={[3.5, 4.5] as any}
-                transparent
-                opacity={0.9}
-              />
-            ))}
-          </Scroll>
-          <Scroll html>
-             <div className="w-full">
+      <CanvasErrorBoundary>
+        <Canvas>
+          <Suspense fallback={null}>
+            <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+            <ambientLight intensity={0.5} />
+            <ScrollControls pages={ASSETS.length} damping={0.1}>
+              <Scroll>
                 {ASSETS.map((asset, i) => (
-                  <div key={i} className={`absolute w-full h-screen flex items-center ${i % 2 === 0 ? 'justify-start pl-[10vw]' : 'justify-end pr-[10vw]'}`} style={{ top: `${i * 100}vh` }}>
-                     <h3 className="text-4xl md:text-6xl font-bold text-white/10 uppercase tracking-tighter mix-blend-difference">{asset.label}</h3>
-                  </div>
+                  <DreiImage
+                    key={i}
+                    url={asset.url}
+                    position={[i % 2 === 0 ? -1.5 : 1.5, -i * 3.5, -i * 2]}
+                    scale={[3.5, 4.5] as any}
+                    transparent
+                    opacity={0.9}
+                  />
                 ))}
-             </div>
-          </Scroll>
-        </ScrollControls>
-      </Canvas>
+              </Scroll>
+              <Scroll html>
+                <div className="w-full">
+                    {ASSETS.map((asset, i) => (
+                      <div key={i} className={`absolute w-full h-screen flex items-center ${i % 2 === 0 ? 'justify-start pl-[10vw]' : 'justify-end pr-[10vw]'}`} style={{ top: `${i * 100}vh` }}>
+                        <h3 className="text-4xl md:text-6xl font-bold text-white/10 uppercase tracking-tighter mix-blend-difference">{asset.label}</h3>
+                      </div>
+                    ))}
+                </div>
+              </Scroll>
+            </ScrollControls>
+          </Suspense>
+        </Canvas>
+      </CanvasErrorBoundary>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 text-xs font-mono text-white/30 uppercase tracking-[0.2em] pointer-events-none">
         <Layers className="w-4 h-4" />
         <span>Scroll Z-Axis Exploration</span>
