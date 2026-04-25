@@ -65,65 +65,65 @@ interface Asset {
  * Then update the URLs below to: '/images/filename.jpg' or '/videos/filename.mp4'
  */
 const DIGITAL_ARCHIVE = [
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(2).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.52%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.52%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010,43,11%20AM-1.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.12%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.12%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM%20(2).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(2).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(3).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.15%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.15%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM%20(2).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM%20(2).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM.jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(1).jpeg',
-  '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(2).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.42.52%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.42.52%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010,43,11%20AM-1.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.12%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.12%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM%20(2).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.13%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(2).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM%20(3).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.15%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.15%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM%20(2).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.18%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM%20(2).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM.jpeg',
 ];
 
 const VIDEO_ASSETS = [
-  { url: '/videos/WhatsApp%20Video%202026-04-25%20at%2010.42.55%20AM.mp4', label: 'Presence Reel 01' },
-  { url: '/videos/WhatsApp%20Video%202026-04-25%20at%2010.43.10%20AM.mp4', label: 'Commercial Clip' },
-  { url: '/videos/WhatsApp%20Video%202026-04-25%20at%2010.43.17%20AM.mp4', label: 'Behind the Scenes' }
+  { url: 'videos/WhatsApp%20Video%202026-04-25%20at%2010.42.55%20AM.mp4', label: 'Presence Reel 01' },
+  { url: 'videos/WhatsApp%20Video%202026-04-25%20at%2010.43.10%20AM.mp4', label: 'Commercial Clip' },
+  { url: 'videos/WhatsApp%20Video%202026-04-25%20at%2010.43.17%20AM.mp4', label: 'Behind the Scenes' }
 ];
 
 const ASSETS: Asset[] = [
   { 
-    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(1).jpeg', 
+    url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(1).jpeg', 
     type: 'image', 
     label: 'Full Body Presence' 
   },
   { 
-    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM.jpeg', 
+    url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.43.11%20AM.jpeg', 
     type: 'image', 
     label: 'Cinematic Portrait' 
   },
   { 
-    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM.jpeg', 
+    url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.43.14%20AM.jpeg', 
     type: 'image', 
     label: 'Dramatic Range' 
   },
   { 
-    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM.jpeg', 
+    url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.43.16%20AM.jpeg', 
     type: 'image', 
     label: 'Street Style' 
   },
   { 
-    url: '/images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM.jpeg', 
+    url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM.jpeg', 
     type: 'image', 
     label: 'High Fashion' 
   },
