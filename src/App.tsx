@@ -67,6 +67,7 @@ interface Asset {
 const DIGITAL_ARCHIVE = [
   'images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(1).jpeg',
   'images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM%20(2).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.42.51%20AM.jpeg',
   'images/WhatsApp%20Image%202026-04-25%20at%2010.42.52%20AM%20(1).jpeg',
   'images/WhatsApp%20Image%202026-04-25%20at%2010.42.52%20AM.jpeg',
   'images/WhatsApp%20Image%202026-04-25%20at%2010,43,11%20AM-1.jpeg',
@@ -92,13 +93,17 @@ const DIGITAL_ARCHIVE = [
   'images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM%20(2).jpeg',
   'images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM.jpeg',
   'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(1).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(2).jpeg',
   'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM.jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(3).jpeg',
+  'images/WhatsApp%20Image%202026-04-25%20at%2010.43.21%20AM.jpeg',
 ];
 
 const VIDEO_ASSETS = [
   { url: 'videos/WhatsApp%20Video%202026-04-25%20at%2010.42.55%20AM.mp4', label: 'Presence Reel 01' },
+  { url: 'videos/WhatsApp%20Video%202026-04-25%20at%2010.42.59%20AM.mp4', label: 'Behind the Scenes' },
   { url: 'videos/WhatsApp%20Video%202026-04-25%20at%2010.43.10%20AM.mp4', label: 'Commercial Clip' },
-  { url: 'videos/WhatsApp%20Video%202026-04-25%20at%2010.43.17%20AM.mp4', label: 'Behind the Scenes' }
+  { url: 'videos/WhatsApp%20Video%202026-04-25%20at%2010.43.17%20AM.mp4', label: 'Street Style' }
 ];
 
 const ASSETS: Asset[] = [
@@ -126,6 +131,21 @@ const ASSETS: Asset[] = [
     url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.43.19%20AM.jpeg', 
     type: 'image', 
     label: 'High Fashion' 
+  },
+  { 
+    url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(1).jpeg', 
+    type: 'image', 
+    label: 'Editorial Edge' 
+  },
+  { 
+    url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(2).jpeg', 
+    type: 'image', 
+    label: 'Moody Contrast' 
+  },
+  { 
+    url: 'images/WhatsApp%20Image%202026-04-25%20at%2010.43.20%20AM%20(3).jpeg', 
+    type: 'image', 
+    label: 'Signature Pose' 
   },
 ];
 
