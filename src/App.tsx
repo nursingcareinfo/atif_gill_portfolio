@@ -202,8 +202,17 @@ const GlassCard = ({ children, className = "", delay = 0 }: { children: React.Re
  * Z-Axis 3D Gallery (Three.js)
  */
 const ZAxisGallery = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
-    <div className="h-[600px] w-full rounded-3xl overflow-hidden relative border border-white/5 bg-black">
+    <div className="h-[400px] md:h-[600px] w-full rounded-3xl overflow-hidden relative border border-white/5 bg-black">
       <CanvasErrorBoundary>
         <Canvas>
           <Suspense fallback={null}>
@@ -215,8 +224,8 @@ const ZAxisGallery = () => {
                   <DreiImage
                     key={i}
                     url={asset.url}
-                    position={[i % 2 === 0 ? -1.5 : 1.5, -i * 3.5, -i * 2]}
-                    scale={[3.5, 4.5] as any}
+                    position={[i % 2 === 0 ? (isMobile ? -0.8 : -1.5) : (isMobile ? 0.8 : 1.5), -i * 3.5, -i * 2]}
+                    scale={(isMobile ? [2, 3] : [3.5, 4.5]) as any}
                     transparent
                     opacity={0.9}
                   />
@@ -226,7 +235,7 @@ const ZAxisGallery = () => {
                 <div className="w-full">
                     {ASSETS.map((asset, i) => (
                       <div key={i} className={`absolute w-full h-screen flex items-center ${i % 2 === 0 ? 'justify-start pl-[10vw]' : 'justify-end pr-[10vw]'}`} style={{ top: `${i * 100}vh` }}>
-                        <h3 className="text-4xl md:text-6xl font-bold text-white/10 uppercase tracking-tighter mix-blend-difference">{asset.label}</h3>
+                        <h3 className="text-2xl md:text-6xl font-bold text-white/10 uppercase tracking-tighter mix-blend-difference">{asset.label}</h3>
                       </div>
                     ))}
                 </div>
@@ -237,7 +246,8 @@ const ZAxisGallery = () => {
       </CanvasErrorBoundary>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 text-xs font-mono text-white/30 uppercase tracking-[0.2em] pointer-events-none">
         <Layers className="w-4 h-4" />
-        <span>Scroll Z-Axis Exploration</span>
+        <span className="hidden sm:inline">Scroll Z-Axis Exploration</span>
+        <span className="sm:hidden">Swipe Up</span>
       </div>
     </div>
   );
@@ -340,13 +350,13 @@ export default function App() {
                     animate={{ opacity: 1 }} 
                     className="col-span-1 md:col-span-12 grid grid-cols-1 md:grid-cols-12 gap-4"
                  >
-                    <div className="col-span-1 md:col-span-4 rounded-3xl bg-neutral-900 border border-white/10 relative overflow-hidden group h-[500px]">
+                    <div className="col-span-1 md:col-span-4 rounded-3xl bg-neutral-900 border border-white/10 relative overflow-hidden group h-[350px] md:h-[500px]">
                       <img src={ASSETS[0].url} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                       <p className="absolute bottom-6 left-6 text-[10px] uppercase tracking-widest font-medium">Digital Portrait / 01</p>
                     </div>
 
-                    <div className="col-span-1 md:col-span-5 rounded-3xl bg-neutral-900 border border-white/10 overflow-hidden relative group h-[500px]">
+                    <div className="col-span-1 md:col-span-5 rounded-3xl bg-neutral-900 border border-white/10 overflow-hidden relative group h-[350px] md:h-[500px]">
                       <img src={ASSETS[1].url} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-neutral-800 mix-blend-overlay"></div>
                       <div className="absolute bottom-6 left-6">
@@ -367,8 +377,8 @@ export default function App() {
                             </div>
                           </div>
                        </GlassCard>
-                       <div className="rounded-3xl bg-[#E6E6FA] p-8 flex flex-col justify-between h-[242px] cursor-pointer group hover:bg-white transition-colors">
-                          <div className="flex justify-between items-start">
+                       <div className="rounded-3xl bg-[#E6E6FA] p-8 flex flex-col justify-between h-auto md:h-[242px] cursor-pointer group hover:bg-white transition-colors">
+                          <div className="flex justify-between items-start mb-4 md:mb-0">
                             <h4 className="text-black text-2xl font-medium leading-tight">Download<br/>Asset Pack</h4>
                             <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center">
                               <FileText className="w-6 h-6 text-black" />
@@ -390,12 +400,13 @@ export default function App() {
                     className="col-span-1 md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-4 min-h-[500px]"
                  >
                     {VIDEO_ASSETS.map((video, i) => (
-                      <div key={i} className="rounded-3xl bg-neutral-900 border border-white/10 relative overflow-hidden group h-[500px]">
+                      <div key={i} className="rounded-3xl bg-neutral-900 border border-white/10 relative overflow-hidden group h-[350px] md:h-[500px]">
                         <video 
                           src={video.url} 
                           className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity"
                           muted
                           loop
+                          playsInline
                           onMouseOver={(e) => (e.target as HTMLVideoElement).play()}
                           onMouseOut={(e) => (e.target as HTMLVideoElement).pause()}
                         />
