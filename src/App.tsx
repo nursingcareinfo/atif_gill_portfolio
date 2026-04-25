@@ -1,0 +1,381 @@
+import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { 
+  Float, 
+  MeshDistortMaterial, 
+  PerspectiveCamera, 
+  ScrollControls, 
+  Scroll, 
+  useScroll,
+  Image as DreiImage,
+  Text,
+  Environment
+} from '@react-three/drei';
+import * as THREE from 'three';
+import { 
+  User, 
+  Maximize2, 
+  FileText, 
+  Mail, 
+  Instagram, 
+  Twitter, 
+  Play,
+  Activity,
+  Layers,
+  Box
+} from 'lucide-react';
+
+// --- Type Definitions ---
+interface Asset {
+  url: string;
+  type: 'image' | 'video';
+  label: string;
+}
+
+// --- Constants & Assets ---
+/**
+ * Note: To use your own files, upload them to:
+ * - /public/images/ for photos
+ * - /public/videos/ for clips
+ * Then update the URLs below to: '/images/filename.jpg' or '/videos/filename.mp4'
+ */
+const ASSETS: Asset[] = [
+  { 
+    url: '/images/WhatsApp Image 2026-04-25 at 10.43.11 AM.jpeg', 
+    type: 'image', 
+    label: 'Full Body Presence' 
+  },
+  { 
+    url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1000', 
+    type: 'image', 
+    label: 'Cinematic Portrait' 
+  },
+  { 
+    url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000', 
+    type: 'image', 
+    label: 'Dramatic Range' 
+  },
+];
+
+const STAFF_DATA = {
+  name: "Atif Gill",
+  title: "Professional Actor & Model",
+  height: "6'0\"",
+  suit: "40R",
+  eyes: "Brown",
+  hair: "Dark Brown",
+  waist: "32\"",
+  shoe: "10 US",
+  location: "Pakistan",
+  socials: {
+    facebook: "https://www.facebook.com/share/1K1RG5GdW8/?mibextid=wwXIfr",
+    instagram: "https://www.instagram.com/gill.sahib.545?igsh=ejV1aDEzanBsaTQy&utm_source=qr",
+    tiktok: "https://www.tiktok.com/@atif.gill946?_r=1&_t=ZS-95pFvp6LjHg"
+  },
+  stats: [
+    { label: "Experience", value: "8+ Years" },
+    { label: "Projects", value: "120+" },
+    { label: "Rating", value: "4.9/5" },
+    { label: "Range", value: "Dramatic / Commercial" }
+  ]
+};
+
+// --- Components ---
+
+/**
+ * Machine Experience (MX) Optimization Component
+ * Renders JSON-LD for AI search agents.
+ */
+const MXSchema = () => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": STAFF_DATA.name,
+    "jobTitle": STAFF_DATA.title,
+    "height": STAFF_DATA.height,
+    "gender": "Male",
+    "description": "Professional Actor and Model based in Pakistan. Specializing in dramatic theater and high-fashion editorial.",
+    "knowsAbout": ["Acting", "Modeling", "Theater", "Commercials"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Karachi",
+      "addressCountry": "PK"
+    }
+  };
+
+  return (
+    <script type="application/ld+json">
+      {JSON.stringify(schema)}
+    </script>
+  );
+};
+
+/**
+ * Elegant Dark Material Simulation
+ */
+const GlassCard = ({ children, className = "", delay = 0 }: { children: React.ReactNode, className?: string, delay?: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={`bg-[#1A1A1A] border border-white/10 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden group ${className}`}
+  >
+    <div className="absolute inset-0 bg-neutral-800 mix-blend-overlay pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    <div className="relative z-10 h-full">{children}</div>
+  </motion.div>
+);
+
+/**
+ * Z-Axis 3D Gallery (Three.js)
+ */
+const ZAxisGallery = () => {
+  return (
+    <div className="h-[600px] w-full rounded-3xl overflow-hidden relative border border-white/5 bg-black">
+      <Canvas>
+        <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+        {/* @ts-ignore */}
+        <ambientLight intensity={0.5} />
+        <ScrollControls pages={3} damping={0.1}>
+          <Scroll>
+            {ASSETS.map((asset, i) => (
+              <DreiImage
+                key={i}
+                url={asset.url}
+                position={[i % 2 === 0 ? -1 : 1, -i * 3, -i * 2]}
+                scale={[3, 4, 1]}
+                transparent
+                opacity={0.9}
+                crossOrigin="anonymous"
+              />
+            ))}
+          </Scroll>
+          <Scroll html>
+             {/* Labels overlaying the 3D space */}
+             <div className="w-full">
+                <div className="absolute top-[20vh] left-[10vw]">
+                   <h3 className="text-4xl font-bold text-white/20 uppercase tracking-tighter">Dramatic Range</h3>
+                </div>
+                <div className="absolute top-[120vh] right-[10vw] text-right">
+                   <h3 className="text-4xl font-bold text-white/20 uppercase tracking-tighter">Physicality</h3>
+                </div>
+                <div className="absolute top-[220vh] left-[10vw]">
+                   <h3 className="text-4xl font-bold text-white/20 uppercase tracking-tighter">Presence</h3>
+                </div>
+             </div>
+          </Scroll>
+        </ScrollControls>
+      </Canvas>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 text-xs font-mono text-white/30 uppercase tracking-[0.2em] pointer-events-none">
+        <Layers className="w-4 h-4" />
+        <span>Scroll Z-Axis Exploration</span>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * Main Presentation Engine
+ */
+export default function App() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeTab, setActiveTab] = useState<'digitals' | 'reel' | 'stats'>('digitals');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const progress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      setScrollProgress(progress);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#050505] text-[#F5F5F0] font-sans overflow-x-hidden p-8 flex flex-col gap-8">
+      <MXSchema />
+      
+      {/* Background Ambience */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#E6E6FA]/5 blur-[150px] rounded-full animate-pulse" />
+      </div>
+
+      {/* Header (Elegant Dark Design) */}
+      <header className="relative z-10 flex flex-col md:flex-row justify-between items-end border-b border-white/10 pb-6 max-w-7xl w-full mx-auto">
+        <div className="space-y-1">
+          <motion.h1 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-5xl md:text-6xl font-light tracking-tighter uppercase"
+          >
+            {STAFF_DATA.name}
+          </motion.h1>
+          <p className="text-[10px] tracking-[0.3em] uppercase text-[#E6E6FA] opacity-80 font-medium">
+            Presence Engine v2026 // SAG-AFTRA
+          </p>
+        </div>
+        <div className="flex gap-4 mt-6 md:mt-0">
+          <button className="px-6 py-2 rounded-full border border-white/20 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-all">Digital Twin</button>
+          <button className="px-6 py-2 rounded-full bg-[#E6E6FA] text-black text-[10px] uppercase tracking-widest font-bold">Request Booking</button>
+        </div>
+      </header>
+
+      {/* Main Content Dashboard */}
+      <main className="max-w-7xl w-full mx-auto space-y-12 pb-24 relative z-10">
+        
+        {/* Behavioral Controls */}
+        <section className="flex items-center justify-between border-b border-white/10 pb-4">
+           <span className="text-[10px] uppercase tracking-widest text-white/40">Situational Engine: ACTIVE</span>
+           <div className="flex gap-3">
+             {(['digitals', 'reel', 'stats'] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setActiveTab(t)}
+                  className={`px-6 py-2 rounded-full text-[9px] uppercase tracking-widest transition-all duration-300 font-bold ${activeTab === t ? 'bg-[#E6E6FA] text-black' : 'text-white/40 hover:text-white/60'}`}
+                >
+                  {t}
+                </button>
+              ))}
+           </div>
+        </section>
+
+        <section className="grid grid-cols-1 md:grid-cols-12 gap-4 h-auto">
+           {activeTab === 'digitals' && (
+              <AnimatePresence mode="wait">
+                 <motion.div 
+                    key="digitals"
+                    initial={{ opacity: 0 }} 
+                    animate={{ opacity: 1 }} 
+                    className="col-span-1 md:col-span-12 grid grid-cols-1 md:grid-cols-12 gap-4"
+                 >
+                    <div className="col-span-1 md:col-span-4 rounded-3xl bg-neutral-900 border border-white/10 relative overflow-hidden group h-[500px]">
+                      <img src={ASSETS[0].url} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                      <p className="absolute bottom-6 left-6 text-[10px] uppercase tracking-widest font-medium">Digital Portrait / 01</p>
+                    </div>
+
+                    <div className="col-span-1 md:col-span-5 rounded-3xl bg-neutral-900 border border-white/10 overflow-hidden relative group h-[500px]">
+                      <img src={ASSETS[1].url} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" />
+                      <div className="absolute inset-0 bg-neutral-800 mix-blend-overlay"></div>
+                      <div className="absolute bottom-6 left-6">
+                        <h3 className="text-2xl font-light tracking-tight">Stage Performance</h3>
+                        <p className="text-[10px] uppercase tracking-widest text-[#E6E6FA]">Karachi, 2026</p>
+                      </div>
+                    </div>
+
+                    <div className="col-span-1 md:col-span-3 space-y-4">
+                       <GlassCard className="h-[242px] bg-white/5 backdrop-blur-xl">
+                          <div className="space-y-4 flex flex-col justify-between h-full">
+                            <span className="text-[10px] uppercase tracking-widest text-white/40">MX Data Protocol</span>
+                            <div className="grid grid-cols-2 gap-y-6">
+                              <div><p className="text-[10px] uppercase text-white/40 mb-1">Height</p><p className="text-xl font-light">{STAFF_DATA.height}</p></div>
+                              <div><p className="text-[10px] uppercase text-white/40 mb-1">Suit</p><p className="text-xl font-light">{STAFF_DATA.suit}</p></div>
+                              <div><p className="text-[10px] uppercase text-white/40 mb-1">Waist</p><p className="text-xl font-light">{STAFF_DATA.waist}</p></div>
+                              <div><p className="text-[10px] uppercase text-white/40 mb-1">Eyes</p><p className="text-xl font-light underline decoration-[#E6E6FA] underline-offset-4">{STAFF_DATA.eyes}</p></div>
+                            </div>
+                          </div>
+                       </GlassCard>
+                       <div className="rounded-3xl bg-[#E6E6FA] p-8 flex flex-col justify-between h-[242px] cursor-pointer group hover:bg-white transition-colors">
+                          <div className="flex justify-between items-start">
+                            <h4 className="text-black text-2xl font-medium leading-tight">Download<br/>Asset Pack</h4>
+                            <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center">
+                              <FileText className="w-6 h-6 text-black" />
+                            </div>
+                          </div>
+                          <p className="text-[9px] text-black/60 uppercase tracking-widest font-bold">Schema Validated // WebP + AVIF</p>
+                       </div>
+                    </div>
+                 </motion.div>
+              </AnimatePresence>
+           )}
+
+           {activeTab === 'reel' && (
+              <AnimatePresence mode="wait">
+                 <motion.div 
+                    key="reel"
+                    initial={{ opacity: 0 }} 
+                    animate={{ opacity: 1 }} 
+                    className="col-span-1 md:col-span-12 rounded-3xl bg-neutral-900 border border-white/10 min-h-[500px] relative overflow-hidden flex items-center justify-center"
+                 >
+                    <div className="text-center relative z-20">
+                       <div className="w-20 h-20 rounded-full border-2 border-[#E6E6FA] flex items-center justify-center mx-auto mb-4 hover:scale-105 transition-transform cursor-pointer">
+                          <Play fill="#E6E6FA" className="w-8 h-8 ml-1" />
+                       </div>
+                       <p className="text-[10px] uppercase tracking-widest text-[#E6E6FA] font-bold">View Showreel 2026</p>
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#1A1A1A] to-[#0A0A0A]"></div>
+                 </motion.div>
+              </AnimatePresence>
+           )}
+
+           {activeTab === 'stats' && (
+              <AnimatePresence mode="wait">
+                 <motion.div 
+                    key="stats"
+                    initial={{ opacity: 0 }} 
+                    animate={{ opacity: 1 }} 
+                    className="col-span-1 md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4"
+                 >
+                    {STAFF_DATA.stats.map((stat, i) => (
+                      <GlassCard key={i} className="min-h-[220px] flex flex-col justify-between">
+                         <Activity className="w-6 h-6 text-[#E6E6FA]/40" />
+                         <div>
+                            <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1">{stat.label}</p>
+                            <p className="text-3xl font-light tracking-tight">{stat.value}</p>
+                         </div>
+                      </GlassCard>
+                    ))}
+                    <div className="col-span-2 md:col-span-4 rounded-3xl border border-white/5 bg-neutral-900/40 p-12 text-center">
+                       <p className="text-white/40 uppercase tracking-[0.25em] text-xs font-light leading-loose">
+                         [Situational Mode: ACTIVE] <br />
+                         Prioritizing theatrical digitals for casting AI agents. Measurement logs synced 2026-04-25.
+                       </p>
+                    </div>
+                 </motion.div>
+              </AnimatePresence>
+           )}
+        </section>
+
+        {/* 3D Visual Gallery Container */}
+        <section className="pt-12 space-y-8">
+            <div className="flex items-center gap-6">
+              <h2 className="text-3xl font-light uppercase tracking-tighter italic opacity-80">Spatial Volume</h2>
+              <div className="h-[1px] flex-grow bg-white/10" />
+            </div>
+            <div className="rounded-[3rem] border border-white/5 overflow-hidden ring-1 ring-white/10 shadow-2xl">
+               <ZAxisGallery />
+            </div>
+        </section>
+
+        {/* Interaction Pillars (Design Feature) */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/10 pt-16">
+           {[
+             { label: 'Dramatic Range', num: '01', active: true },
+             { label: 'Commercial Pulse', num: '02', active: false },
+             { label: 'Motion Capture', num: '03', active: false }
+           ].map((pill) => (
+              <div key={pill.num} className={`rounded-3xl border border-white/10 p-10 flex items-center gap-6 transition-all ${pill.active ? 'bg-white/5' : 'opacity-30 grayscale hover:grayscale-0 hover:opacity-100'}`}>
+                 <div className={`w-12 h-12 rounded-full border flex items-center justify-center text-[11px] font-bold ${pill.active ? 'border-[#E6E6FA] text-[#E6E6FA]' : 'border-white/20 text-white/40'}`}>
+                    {pill.num}
+                 </div>
+                 <p className="text-sm font-medium uppercase tracking-widest">{pill.label}</p>
+              </div>
+           ))}
+        </section>
+
+      </main>
+
+      {/* Footer (Elegant Dark Design) */}
+      <footer className="relative z-10 flex flex-col md:flex-row justify-between items-center text-[10px] text-white/40 uppercase tracking-[0.2em] pt-12 pb-8 border-t border-white/10 max-w-7xl w-full mx-auto gap-8 md:gap-0">
+        <div>System: Optimized for AI Search Agents</div>
+        <div className="flex gap-12 font-bold text-white/40">
+          <a href={STAFF_DATA.socials.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-[#E6E6FA] transition-colors">Facebook</a>
+          <a href={STAFF_DATA.socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-[#E6E6FA] transition-colors">Instagram</a>
+          <a href={STAFF_DATA.socials.tiktok} target="_blank" rel="noopener noreferrer" className="hover:text-[#E6E6FA] transition-colors">TikTok</a>
+        </div>
+        <div>© 2026 {STAFF_DATA.name.toUpperCase()} Presence Engine</div>
+      </footer>
+    </div>
+  );
+}
+
