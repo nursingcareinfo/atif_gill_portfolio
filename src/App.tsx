@@ -23,7 +23,9 @@ import {
   Play,
   Activity,
   Layers,
-  Box
+  Box,
+  ChevronRight,
+  ChevronLeft
 } from 'lucide-react';
 
 // --- Type Definitions ---
@@ -40,21 +42,68 @@ interface Asset {
  * - /public/videos/ for clips
  * Then update the URLs below to: '/images/filename.jpg' or '/videos/filename.mp4'
  */
+const DIGITAL_ARCHIVE = [
+  '/images/WhatsApp Image 2026-04-25 at 10.42.51 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.42.51 AM (2).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.42.52 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.42.52 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10,43,11 AM-1.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.11 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.11 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.12 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.12 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.13 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.13 AM (2).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.13 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM (2).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM (3).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.15 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.15 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.16 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.16 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.18 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.18 AM (2).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.18 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.19 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.19 AM (2).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.19 AM.jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.20 AM (1).jpeg',
+  '/images/WhatsApp Image 2026-04-25 at 10.43.20 AM.jpeg',
+];
+
+const VIDEO_ASSETS = [
+  { url: '/videos/WhatsApp Video 2026-04-25 at 10.42.55 AM.mp4', label: 'Presence Reel 01' },
+  { url: '/videos/WhatsApp Video 2026-04-25 at 10.43.10 AM.mp4', label: 'Commercial Clip' },
+  { url: '/videos/WhatsApp Video 2026-04-25 at 10.43.17 AM.mp4', label: 'Behind the Scenes' }
+];
+
 const ASSETS: Asset[] = [
   { 
-    url: '/images/WhatsApp Image 2026-04-25 at 10.43.11 AM.jpeg', 
+    url: '/images/WhatsApp Image 2026-04-25 at 10.42.51 AM (1).jpeg', 
     type: 'image', 
     label: 'Full Body Presence' 
   },
   { 
-    url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1000', 
+    url: '/images/WhatsApp Image 2026-04-25 at 10.43.11 AM.jpeg', 
     type: 'image', 
     label: 'Cinematic Portrait' 
   },
   { 
-    url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000', 
+    url: '/images/WhatsApp Image 2026-04-25 at 10.43.14 AM.jpeg', 
     type: 'image', 
     label: 'Dramatic Range' 
+  },
+  { 
+    url: '/images/WhatsApp Image 2026-04-25 at 10.43.16 AM.jpeg', 
+    type: 'image', 
+    label: 'Street Style' 
+  },
+  { 
+    url: '/images/WhatsApp Image 2026-04-25 at 10.43.19 AM.jpeg', 
+    type: 'image', 
+    label: 'High Fashion' 
   },
 ];
 
@@ -75,7 +124,7 @@ const STAFF_DATA = {
   },
   stats: [
     { label: "Experience", value: "8+ Years" },
-    { label: "Projects", value: "120+" },
+    { label: "Digital Assets", value: `${DIGITAL_ARCHIVE.length + VIDEO_ASSETS.length}` },
     { label: "Rating", value: "4.9/5" },
     { label: "Range", value: "Dramatic / Commercial" }
   ]
@@ -137,32 +186,26 @@ const ZAxisGallery = () => {
         <PerspectiveCamera makeDefault position={[0, 0, 5]} />
         {/* @ts-ignore */}
         <ambientLight intensity={0.5} />
-        <ScrollControls pages={3} damping={0.1}>
+        <ScrollControls pages={ASSETS.length} damping={0.1}>
           <Scroll>
             {ASSETS.map((asset, i) => (
               <DreiImage
                 key={i}
                 url={asset.url}
-                position={[i % 2 === 0 ? -1 : 1, -i * 3, -i * 2]}
-                scale={[3, 4, 1]}
+                position={[i % 2 === 0 ? -1.5 : 1.5, -i * 3.5, -i * 2]}
+                scale={[3.5, 4.5] as any}
                 transparent
                 opacity={0.9}
-                crossOrigin="anonymous"
               />
             ))}
           </Scroll>
           <Scroll html>
-             {/* Labels overlaying the 3D space */}
              <div className="w-full">
-                <div className="absolute top-[20vh] left-[10vw]">
-                   <h3 className="text-4xl font-bold text-white/20 uppercase tracking-tighter">Dramatic Range</h3>
-                </div>
-                <div className="absolute top-[120vh] right-[10vw] text-right">
-                   <h3 className="text-4xl font-bold text-white/20 uppercase tracking-tighter">Physicality</h3>
-                </div>
-                <div className="absolute top-[220vh] left-[10vw]">
-                   <h3 className="text-4xl font-bold text-white/20 uppercase tracking-tighter">Presence</h3>
-                </div>
+                {ASSETS.map((asset, i) => (
+                  <div key={i} className={`absolute w-full h-screen flex items-center ${i % 2 === 0 ? 'justify-start pl-[10vw]' : 'justify-end pr-[10vw]'}`} style={{ top: `${i * 100}vh` }}>
+                     <h3 className="text-4xl md:text-6xl font-bold text-white/10 uppercase tracking-tighter mix-blend-difference">{asset.label}</h3>
+                  </div>
+                ))}
              </div>
           </Scroll>
         </ScrollControls>
@@ -176,8 +219,32 @@ const ZAxisGallery = () => {
 };
 
 /**
- * Main Presentation Engine
+ * Digital Archive Grid (all uploaded images)
  */
+const DigitalArchive = () => (
+  <section className="pt-12 space-y-8">
+    <div className="flex items-center gap-6">
+      <h2 className="text-3xl font-light uppercase tracking-tighter italic opacity-80">Digital Archive</h2>
+      <div className="h-[1px] flex-grow bg-white/10" />
+    </div>
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      {DIGITAL_ARCHIVE.map((img, i) => (
+        <motion.div 
+          key={i} 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ delay: (i % 6) * 0.1 }}
+          className="aspect-[3/4] rounded-2xl overflow-hidden border border-white/5 bg-neutral-900 group relative"
+        >
+          <img src={img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt={`Archive item ${i}`} />
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+             <Maximize2 className="w-6 h-6 text-white" />
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </section>
+);
 export default function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeTab, setActiveTab] = useState<'digitals' | 'reel' | 'stats'>('digitals');
@@ -295,18 +362,32 @@ export default function App() {
                     key="reel"
                     initial={{ opacity: 0 }} 
                     animate={{ opacity: 1 }} 
-                    className="col-span-1 md:col-span-12 rounded-3xl bg-neutral-900 border border-white/10 min-h-[500px] relative overflow-hidden flex items-center justify-center"
+                    className="col-span-1 md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-4 min-h-[500px]"
                  >
-                    <div className="text-center relative z-20">
-                       <div className="w-20 h-20 rounded-full border-2 border-[#E6E6FA] flex items-center justify-center mx-auto mb-4 hover:scale-105 transition-transform cursor-pointer">
-                          <Play fill="#E6E6FA" className="w-8 h-8 ml-1" />
-                       </div>
-                       <p className="text-[10px] uppercase tracking-widest text-[#E6E6FA] font-bold">View Showreel 2026</p>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#1A1A1A] to-[#0A0A0A]"></div>
+                    {VIDEO_ASSETS.map((video, i) => (
+                      <div key={i} className="rounded-3xl bg-neutral-900 border border-white/10 relative overflow-hidden group h-[500px]">
+                        <video 
+                          src={video.url} 
+                          className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity"
+                          muted
+                          loop
+                          onMouseOver={(e) => (e.target as HTMLVideoElement).play()}
+                          onMouseOut={(e) => (e.target as HTMLVideoElement).pause()}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                           <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
+                              <Play fill="white" className="w-6 h-6 ml-1" />
+                           </div>
+                        </div>
+                        <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center">
+                          <p className="text-[10px] uppercase tracking-widest text-white/80 font-bold">{video.label}</p>
+                          <span className="text-[9px] uppercase tracking-widest text-[#E6E6FA] opacity-60">PRO VIDEO</span>
+                        </div>
+                      </div>
+                    ))}
                  </motion.div>
               </AnimatePresence>
-           )}
+            )}
 
            {activeTab === 'stats' && (
               <AnimatePresence mode="wait">
@@ -346,6 +427,8 @@ export default function App() {
                <ZAxisGallery />
             </div>
         </section>
+
+        <DigitalArchive />
 
         {/* Interaction Pillars (Design Feature) */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/10 pt-16">
