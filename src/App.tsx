@@ -150,7 +150,7 @@ const ASSETS: Asset[] = [
 ];
 
 const STAFF_DATA = {
-  name: "Atif Gill",
+  name: "Atif Gill Portfolio",
   title: "Professional Actor & Model",
   height: "6'0\"",
   suit: "40R",
